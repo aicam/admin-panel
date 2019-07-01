@@ -11,7 +11,7 @@ export class AuthService {
   }
   login(email: string, password: string) {
     const auth = {username: email, password: password};
-    this.http.post<{status: string, token: string}>('http://192.168.1.103:3000/api/login', auth).subscribe(response => {
+    this.http.post<{status: string, token: string}>('http://localhost:3000/api/login', auth).subscribe(response => {
       const token = response.token;
       this.token = token;
     });

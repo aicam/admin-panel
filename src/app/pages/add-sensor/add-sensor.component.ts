@@ -23,7 +23,7 @@ export class AddSensorComponent {
   }
 
   clicked() {
-    this.http.get('http://192.168.1.103:3000/add_sensor/' + this.sensorID + '/' +
+    this.http.get('http://localhost:3000/add_sensor/' + this.sensorID + '/' +
       this.name + '/' + this.period + '/' + this.long + '/' + this.lat + '/' +
       this.getUsername()).subscribe((response) => {
         const resJson = JSON.stringify(response);
