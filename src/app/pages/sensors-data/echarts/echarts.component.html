@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card style="text-align: right;">
+      <nb-card-header>مشاهده دیتا سنسور</nb-card-header>
+      <nb-card-body>
+        <label>{{test}}</label>
+        <form [formGroup]="form" *ngIf="is_loaded">
+          <div class="alert alert-primary" role="alert">
+            <strong>سنسور موردنظر خودرا انتخاب کنید</strong>
+          </div>
+          <div class="form-group validation-checkboxes row">
+            <div class="col-lg-4" *ngFor="let item of radiobox_array; let i = index;">
+                <button class="btn btn-hero-info" id="{{i}}" type="button" value="{{item.name}}" (click)="selected($event)" >{{item.name}}</button>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6" *ngIf="is_selected">
+    <nb-card>
+      <nb-card-header>Line</nb-card-header>
+      <nb-card-body>
+        <div echarts [options]="options_line" class="echart"></div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6" *ngIf="is_selected">
+    <nb-card>
+      <nb-card-header>Bar chart</nb-card-header>
+      <nb-card-body>
+        <div echarts [options]="options" class="echart"></div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-12 col-lg-12 col-xxxl-6" *ngIf="!is_loaded">
+    <nb-card [nbSpinner]="true" nbSpinnerSize="small">
+      <nb-card-body>
+        بارگزاری داده
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
