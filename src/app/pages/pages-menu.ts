@@ -27,6 +27,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-cloudy',
     link: '/pages/addSensor',
   },
+  {
+    title: 'اضافه کردن گروه',
+    icon: 'nb-compose',
+    link: '/pages/add-group',
+  },
   // {
   //   title: 'IoT Dashboard',
   //   icon: 'nb-home',

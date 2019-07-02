@@ -15,13 +15,18 @@ export class ScheduleComponent implements OnInit {
   schedule_days: any[] = [];
   plans: string[] = [];
   groups: string[] = [];
+  group_name: string = '';
   constructor(private http: HttpClient, private toastrService: NbToastrService) {}
   ngOnInit(): void {
-    this.http.get('http://localhost:300/get_groups/' + this.getUsername()).subscribe(response => {
+    this.http.get('http://localhost:3000/get_groups/' + this.getUsername()).subscribe(response => {
       const jsonstring = JSON.stringify(response);
       const jsonArray = JSON.parse(jsonstring);
       jsonArray.map(item => { this.groups.push(item); });
     });
+  }
+  select_group (event) {
+    this.group_name = event.target.value;
+    this.test = this.group_name;
   }
   changed_date ($event) {
     this.schedule_days.map(item => {
@@ -45,7 +50,7 @@ export class ScheduleComponent implements OnInit {
     this.schedule_days.map((item, i) => {
       plan = plan.concat(`"${item.day}":"${this.plans[i]}",`);
     });
-    const data = {username: this.getUsername(), gpname: 'gp1', plan: plan};
+    const data = {username: this.getUsername(), gpname: this.group_name, plan: plan};
     this.http.post<{status: string}>('http://localhost:3000/schedule', data).subscribe((response) => {
       this.showToast(NbToastStatus.SUCCESS, 'وضعیت', 'برنامه جدید با موفقیت ثبت شد.');
     });

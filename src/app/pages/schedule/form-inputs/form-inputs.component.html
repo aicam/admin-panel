@@ -6,15 +6,14 @@
         <div class="alert alert-primary" role="alert">
           <strong>گروه های موردنظر را انتخاب کنید</strong>
         </div>
-        <div class="form-group validation-checkboxes row">
-          <nb-checkbox status="success" class="col-sm-4" >gp1</nb-checkbox>
-          <nb-checkbox status="success" class="col-sm-4">gp2</nb-checkbox>
+        <div class="form-group col-md-3" *ngFor="let item of groups; let i = index">
+          <button class="btn btn-warning" value="{{item}}" (click)="select_group($event)">{{item}}</button>
         </div>
         <div class="alert alert-primary" role="alert">
           <strong>دوره برنامه خود را انتخاب کنید</strong>
         </div>
         <div class="form-group">
-          <label>{{test}}</label>
+          <h3>{{test}} برنامه برای گروه  </h3>
           <div class="input-group" *ngFor="let item of schedule_days;let i = index">
             <span class="input-group-addon success">{{item.day}}</span>
             <input type="text" class="form-control" id="{{item.day}}" [(ngModel)]="plans[i]" placeholder="ex : 12:30-15:25"/>

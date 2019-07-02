@@ -12,6 +12,7 @@ import { ThemeModule } from '../@theme/theme.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from '../auth-interceptor';
+import {AddGroupModule} from './add-group/add-group.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -19,6 +20,7 @@ const PAGES_COMPONENTS = [
 
 @NgModule({
   imports: [
+    AddGroupModule,
     PagesRoutingModule,
     ScheduleModule,
     AddSensorModule,
