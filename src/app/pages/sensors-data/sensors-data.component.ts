@@ -1,10 +1,11 @@
 import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
-import {NbThemeService} from '@nebular/theme';
+import { NbThemeService} from '@nebular/theme';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import {AuthService} from '../../auth-service';
+import {Router} from '@angular/router';
 @Component({
   selector: 'ngx-echarts',
   styleUrls: ['./echarts/echarts.component.scss'],
@@ -32,7 +33,8 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   d: string = 'started';
   async getSensorsNames() {
-    this.http.get('http://localhost:3000/sensors/' + this.getUsername()).subscribe((response, err) => {
+    this.http.get('http://localhost:3000/sensors/' + this.getUsername())
+      .subscribe((response, err) => {
       const names_json = JSON.stringify(response);
       const names_array = JSON.parse(names_json);
       this.form = this.toFormGroup(names_array);
@@ -44,14 +46,19 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     return 'problem occured';
   }
+  routers: any;
   async ngOnInit() {
-    this.test = this.authService.getToken();
     this.d = await this.getSensorsNames();
+    if (this.authService.getToken() === '' )
+      this.routers.navigateByUrl('/auth/login');
   }
   authService: any;
   constructor(_http: HttpClient, private theme: NbThemeService,
-              private toastrService: NbToastrService, authService: AuthService) {
+              private toastrService: NbToastrService, authService: AuthService,
+              private router: Router,
+              ) {
     this.authService = authService;
+    this.routers = router;
     this.http = _http;
   }
 

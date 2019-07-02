@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-lg-6">
+  <nb-card style="text-align: right;">
+    <nb-card-header>اطلاعات سنسور</nb-card-header>
+    <nb-card-body>
+      <div class="input-group">
+        <span class="input-group-addon success">Name</span>
+        <input type="text" class="form-control" [(ngModel)]="name" placeholder="نام دلخواه"/>
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon success">ID</span>
+        <input type="text" class="form-control" [(ngModel)]="relayID" placeholder="ex : eu12545"/>
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Longitude" [(ngModel)]="long" class="form-control form-control-success">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Latitude" [(ngModel)]="lat" class="form-control form-control-warning">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-hero-secondary" (click)="onClicked()">اضافه کردن</button>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  </div>
+</div>
