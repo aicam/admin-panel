@@ -1,0 +1,24 @@
+<div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>اضافه کردن گروه</nb-card-header>
+      <nb-card-body style="text-align: right;">
+        <div class="form-group">
+          <h2>: کلید های انتخاب شده</h2>
+          <label>{{test}}</label>
+        </div>
+        <div class="row form-group">
+          <div class="col-md-2" *ngFor="let item of group_names">
+            <button class="btn {{item.cl}}" value="{{item.name}}" (click)="onClicked($event)">{{item.name}}</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="text" nbInput fullWidth status="success" [(ngModel)]="gpname"  placeholder="Group Name">
+        </div>
+        <div class="col-md-6 form-group">
+          <button class="btn btn-hero-secondary" (click)="add_gp()">اضافه کردن</button>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

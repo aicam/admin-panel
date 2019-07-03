@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
 import { NbThemeService} from '@nebular/theme';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
@@ -16,9 +16,11 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
   sensor_name: string = '';
   is_loaded: boolean = false;
   dataParsed: any[] = [];
+  token: string = '';
+  httpHeader: any;
   test: string = '';
   getUsername() {
-    return 'aicam';
+    return localStorage['username'];
   }
   form: FormGroup;
   is_selected: boolean = false;
@@ -33,7 +35,8 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   d: string = 'started';
   async getSensorsNames() {
-    this.http.get('http://localhost:3000/sensors/' + this.getUsername())
+    this.http.get('http://localhost:3000/sensors/' + this.getUsername(),
+      {headers: this.httpHeader} )
       .subscribe((response, err) => {
       const names_json = JSON.stringify(response);
       const names_array = JSON.parse(names_json);
@@ -48,9 +51,10 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   routers: any;
   async ngOnInit() {
-    this.d = await this.getSensorsNames();
-    if (this.authService.getToken() === '' )
+    if ( this.token === '' )
       this.routers.navigateByUrl('/auth/login');
+    this.httpHeader = {'Authorization': 'Bearer ' + this.token};
+    this.d = await this.getSensorsNames();
   }
   authService: any;
   constructor(_http: HttpClient, private theme: NbThemeService,
@@ -58,6 +62,7 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
               private router: Router,
               ) {
     this.authService = authService;
+    this.token = this.authService.getToken();
     this.routers = router;
     this.http = _http;
   }
@@ -69,7 +74,8 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
   selected(event) {
     this.sensor_name = event.target.value;
     const id = event.target.id;
-    this.http.get('http://localhost:3000/sensor_data/' + this.radiobox_array[id]['id']).subscribe((response) => {
+    this.http.get('http://localhost:3000/sensor_data/' + this.radiobox_array[id]['id'],
+      {headers: this.httpHeader}).subscribe((response) => {
       const stringified = JSON.stringify(response);
       this.dataParsed = JSON.parse(stringified);
       this.dataParsed.map((item, index) => {

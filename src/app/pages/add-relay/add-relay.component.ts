@@ -3,6 +3,8 @@ import io from 'socket.io-client';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbToastrService} from '@nebular/theme';
 import {NbToastStatus} from '@nebular/theme/components/toastr/model';
+import {AuthService} from '../../auth-service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'ngx-bootstrap',
@@ -16,15 +18,24 @@ export class AddRelayComponent {
   long: number;
   lat: number;
   http: any;
+  token: string = '';
+  httpHeader: any;
   getUsername () {
     return 'aicam';
   }
-  constructor(private _http: HttpClient, private theme: NbThemeService, private toastrService: NbToastrService) {
+  constructor(private _http: HttpClient, private theme: NbThemeService, private toastrService: NbToastrService,
+              private authService: AuthService,
+              private router: Router) {
     this.http = _http;
+    this.token = this.authService.getToken();
+    if ( this.token === '' )
+      this.router.navigateByUrl('/auth/login');
+    this.httpHeader = {'Authorization': 'Bearer ' + this.token};
   }
   onClicked() {
     this.http.get('http://localhost:3000/add_relay/' + this.relayID + '/' + this.name +
-      '/' + this.long + '/' + this.lat + '/' + this.getUsername()).subscribe((response) => {
+      '/' + this.long + '/' + this.lat + '/' + this.getUsername(),
+      {headers: this.httpHeader}).subscribe((response) => {
       const resJson = JSON.stringify(response);
       const resArr = JSON.parse(resJson);
       if (resArr['status']) {

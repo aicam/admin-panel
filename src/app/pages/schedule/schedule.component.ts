@@ -3,6 +3,8 @@ import {NbDialogService, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrSer
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {NbToastStatus} from '@nebular/theme/components/toastr/model';
+import {AuthService} from '../../auth-service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'ngx-bootstrap',
@@ -16,9 +18,18 @@ export class ScheduleComponent implements OnInit {
   plans: string[] = [];
   groups: string[] = [];
   group_name: string = '';
-  constructor(private http: HttpClient, private toastrService: NbToastrService) {}
+  token: string = '';
+  httpHeader: any;
+  constructor(private http: HttpClient, private toastrService: NbToastrService, private authService: AuthService,
+              private router: Router) {
+    this.token = this.authService.getToken();
+    if ( this.token === '' )
+      this.router.navigateByUrl('/auth/login');
+    this.httpHeader = {'Authorization': 'Bearer ' + this.token};
+  }
   ngOnInit(): void {
-    this.http.get('http://localhost:3000/get_groups/' + this.getUsername()).subscribe(response => {
+    this.http.get('http://localhost:3000/get_groups/' + this.getUsername(),
+      {headers: this.httpHeader}).subscribe(response => {
       const jsonstring = JSON.stringify(response);
       const jsonArray = JSON.parse(jsonstring);
       jsonArray.map(item => { this.groups.push(item); });
@@ -42,8 +53,8 @@ export class ScheduleComponent implements OnInit {
         this.test = event.target.value;
     });
   }
-  getUsername () {
-    return 'aicam';
+  getUsername() {
+    return localStorage['username'];
   }
   scheduleStart () {
     let plan = '';
@@ -51,7 +62,8 @@ export class ScheduleComponent implements OnInit {
       plan = plan.concat(`"${item.day}":"${this.plans[i]}",`);
     });
     const data = {username: this.getUsername(), gpname: this.group_name, plan: plan};
-    this.http.post<{status: string}>('http://localhost:3000/schedule', data).subscribe((response) => {
+    this.http.post<{status: string}>('http://localhost:3000/schedule', data,
+      {headers: this.httpHeader}).subscribe((response) => {
       this.showToast(NbToastStatus.SUCCESS, 'وضعیت', 'برنامه جدید با موفقیت ثبت شد.');
     });
   }

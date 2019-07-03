@@ -29,7 +29,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'اضافه کردن گروه',
-    icon: 'nb-compose',
+    icon: 'nb-keypad',
     link: '/pages/add-group',
   },
   // {

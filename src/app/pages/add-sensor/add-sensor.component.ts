@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbToastrService} from '@nebular/theme';
 import {NbToastStatus} from '@nebular/theme/components/toastr/model';
 import {HttpClient} from '@angular/common/http';
+import {AuthService} from '../../auth-service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -17,7 +19,8 @@ export class AddSensorComponent {
   lat: number;
   test: string = '';
   http: any;
-
+  token: string = '';
+  httpHeader: any;
   getUsername() {
     return 'aicam';
   }
@@ -25,7 +28,7 @@ export class AddSensorComponent {
   clicked() {
     this.http.get('http://localhost:3000/add_sensor/' + this.sensorID + '/' +
       this.name + '/' + this.period + '/' + this.long + '/' + this.lat + '/' +
-      this.getUsername()).subscribe((response) => {
+      this.getUsername(), {headers: this.httpHeader}).subscribe((response) => {
         const resJson = JSON.stringify(response);
         const resArr = JSON.parse(resJson);
         if (resArr.status)
@@ -33,8 +36,14 @@ export class AddSensorComponent {
     });
   }
 
-  constructor(_http: HttpClient, private theme: NbThemeService, private toastrService: NbToastrService) {
+  constructor(_http: HttpClient, private theme: NbThemeService, private toastrService: NbToastrService,
+              private authService: AuthService,
+              private router: Router) {
     this.http = _http;
+    this.token = this.authService.getToken();
+    if ( this.token === '' )
+      this.router.navigateByUrl('/auth/login');
+    this.httpHeader = {'Authorization': 'Bearer ' + this.token};
   }
 
   // toast

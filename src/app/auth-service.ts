@@ -7,13 +7,16 @@ export class AuthService {
   private token: string = '';
   constructor(private http: HttpClient) {}
   getToken () {
-    return this.token;
+    const local_token = localStorage['token'] || '';
+    return ( this.token === '' ) ? local_token : this.token;
   }
   login(email: string, password: string) {
     const auth = {username: email, password: password};
     this.http.post<{status: string, token: string}>('http://localhost:3000/api/login', auth).subscribe(response => {
       const token = response.token;
       this.token = token;
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', email);
     });
   }
 }
