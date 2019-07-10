@@ -13,7 +13,7 @@ export class AuthService {
   async login(email: string, password: string) {
     const auth = {username: email, password: password};
     await this.http.post<{status: string, token: string}>
-    ('http://localhost:3000/api/login', auth).subscribe(response => {
+    ('http://192.168.1.13:3000/api/login', auth).subscribe(response => {
       const token = response.token;
       this.token = token;
       localStorage.setItem('token', token);

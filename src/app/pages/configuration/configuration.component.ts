@@ -21,7 +21,8 @@ export class ConfigurationComponent implements OnInit {
   clicked: boolean = false;
   loaded_gp: boolean = false;
   ab: boolean = false;
-  set_ab() {
+  set_ab(event) {
+    event.target.class = 'btn-warning';
     this.ab = true;
   }
   scheduleStart() {
@@ -32,7 +33,7 @@ export class ConfigurationComponent implements OnInit {
   }
   async ngOnInit() {
     await this.getSensorsNames();
-    this.http.get('http://localhost:3000/get_groups/' + this.getUsername(),
+    this.http.get('http://192.168.1.13:3000/get_groups/' + this.getUsername(),
       {headers: this.httpHeader}).subscribe(response => {
       const jsonstring = JSON.stringify(response);
       const jsonArray = JSON.parse(jsonstring);
@@ -52,7 +53,7 @@ export class ConfigurationComponent implements OnInit {
     this.httpHeader = {'Authorization': 'Bearer ' + this.token};
   }
   async getSensorsNames() {
-    this.http.get('http://localhost:3000/sensors/' + this.getUsername(),
+    this.http.get('http://192.168.1.13:3000/sensors/' + this.getUsername(),
       {headers: this.httpHeader} )
       .subscribe((response, err) => {
         const names_json = JSON.stringify(response);

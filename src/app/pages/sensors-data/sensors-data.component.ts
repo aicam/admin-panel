@@ -35,7 +35,7 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   d: string = 'started';
   async getSensorsNames() {
-    this.http.get('http://localhost:3000/sensors/' + this.getUsername(),
+    this.http.get('http://192.168.1.13:3000/sensors/' + this.getUsername(),
       {headers: this.httpHeader} )
       .subscribe((response, err) => {
       const names_json = JSON.stringify(response);
@@ -79,7 +79,7 @@ export class SensorsDataComponent implements OnInit, AfterViewInit, OnDestroy {
     this.is_selected = false;
     this.sensor_name = event.target.value;
     const id = event.target.id;
-    this.http.get('http://localhost:3000/sensor_data/' + this.radiobox_array[id]['id'],
+    this.http.get('http://192.168.1.13:3000/sensor_data/' + this.radiobox_array[id]['id'],
       {headers: this.httpHeader}).subscribe((response) => {
       const stringified = JSON.stringify(response);
       this.dataParsed = JSON.parse(stringified);

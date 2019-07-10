@@ -27,7 +27,7 @@
         </div>
         <div class="row">
           <div class="form-group col-6 col-md-4" *ngFor="let item of groups; let i = index">
-            <button class="btn btn-warning" value="{{item}}">{{item}}</button>
+            <button class="btn btn-warning" value="{{item}}" (click)="set_ab($event)">{{item}}</button>
           </div>
         </div>
       </nb-card-body>
@@ -42,14 +42,15 @@
         </div>
         <div class="input-group">
           <span class="input-group-addon success">Min</span>
-          <input type="text" class="form-control" ngDefaultControl="AddSensorComponent" [(ngModel)]="sensorID"
+          <input type="text" class="form-control" ngDefaultControl="AddSensorComponent"
                  placeholder="ex : 0"/>
         </div>
         <div class="input-group">
           <span class="input-group-addon success">Max</span>
-          <input type="text" class="form-control" ngDefaultControl="AddSensorComponent" [(ngModel)]="sensorID"
+          <input type="text" class="form-control" ngDefaultControl="AddSensorComponent"
                  placeholder="ex : 100"/>
         </div>
+        <nb-checkbox status="success" class="col-sm-4">خاموش شدن در صورت عبور از حد مجاز</nb-checkbox>
         <div class="form-group">
           <button class="btn btn-hero-secondary" (click)="scheduleStart()">شروع برنامه ریزی</button>
         </div>

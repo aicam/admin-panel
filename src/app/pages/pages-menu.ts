@@ -9,12 +9,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
   // },
   {
     title: 'تنظیمات پیشرفته',
-    icon: 'nb-bar-chart',
+    icon: 'nb-coffee-maker',
     link: '/pages/config',
   },
   {
     title: 'پیش بینی آب و هوا',
-    icon: 'nb-bar-chart',
+    icon: 'nb-grid-a',
     link: '/pages/forecast',
   }, {
     title: 'اطلاعات سنسور',

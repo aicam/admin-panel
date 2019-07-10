@@ -28,7 +28,7 @@ export class ScheduleComponent implements OnInit {
     this.httpHeader = {'Authorization': 'Bearer ' + this.token};
   }
   ngOnInit(): void {
-    this.http.get('http://localhost:3000/get_groups/' + this.getUsername(),
+    this.http.get('http://192.168.1.13:3000/get_groups/' + this.getUsername(),
       {headers: this.httpHeader}).subscribe(response => {
       const jsonstring = JSON.stringify(response);
       const jsonArray = JSON.parse(jsonstring);
@@ -62,7 +62,7 @@ export class ScheduleComponent implements OnInit {
       plan = plan.concat(`"${item.day}":"${this.plans[i]}",`);
     });
     const data = {username: this.getUsername(), gpname: this.group_name, plan: plan};
-    this.http.post<{status: string}>('http://localhost:3000/schedule', data,
+    this.http.post<{status: string}>('http://192.168.1.13:3000/schedule', data,
       {headers: this.httpHeader}).subscribe((response) => {
       this.showToast(NbToastStatus.SUCCESS, 'وضعیت', 'برنامه جدید با موفقیت ثبت شد.');
     });

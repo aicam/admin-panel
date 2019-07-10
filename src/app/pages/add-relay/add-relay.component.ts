@@ -33,7 +33,7 @@ export class AddRelayComponent {
     this.httpHeader = {'Authorization': 'Bearer ' + this.token};
   }
   onClicked() {
-    this.http.get('http://localhost:3000/add_relay/' + this.relayID + '/' + this.name +
+    this.http.get('http://192.168.1.13:3000/add_relay/' + this.relayID + '/' + this.name +
       '/' + this.long + '/' + this.lat + '/' + this.getUsername(),
       {headers: this.httpHeader}).subscribe((response) => {
       const resJson = JSON.stringify(response);

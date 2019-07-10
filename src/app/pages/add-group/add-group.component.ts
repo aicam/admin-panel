@@ -22,7 +22,7 @@ export class AddGroupComponent implements OnInit {
     return localStorage['username'];
   }
   ngOnInit(): void {
-    this.http.get('http://localhost:3000/get_relays/' + this.getUsername(),
+    this.http.get('http://192.168.1.13:3000/get_relays/' + this.getUsername(),
       {headers: this.httpHeader}).subscribe(response => {
       const jsonstring = JSON.stringify(response);
       const jsonArray = JSON.parse(jsonstring);
@@ -52,7 +52,7 @@ export class AddGroupComponent implements OnInit {
   }
   add_gp () {
     const post_data = {gpname: this.gpname, relays: JSON.stringify(this.relay_selected)};
-    this.http.post('http://localhost:3000/add_group', post_data, {headers: this.httpHeader}).subscribe(response => {
+    this.http.post('http://192.168.1.13:3000/add_group', post_data, {headers: this.httpHeader}).subscribe(response => {
       const resJson = JSON.stringify(response);
       const resArr = JSON.parse(resJson);
       if (resArr['status']) {
