@@ -1,13 +1,22 @@
 import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
+  // {
+  //   title: 'E-commerce',
+  //   icon: 'nb-e-commerce',
+  //   link: '/pages/dashboard',
+  //   home: true,
+  // },
   {
-    title: 'E-commerce',
-    icon: 'nb-e-commerce',
-    link: '/pages/dashboard',
-    home: true,
+    title: 'تنظیمات پیشرفته',
+    icon: 'nb-bar-chart',
+    link: '/pages/config',
   },
   {
+    title: 'پیش بینی آب و هوا',
+    icon: 'nb-bar-chart',
+    link: '/pages/forecast',
+  }, {
     title: 'اطلاعات سنسور',
     icon: 'nb-bar-chart',
     link: '/pages/sensorsData',

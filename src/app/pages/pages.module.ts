@@ -13,6 +13,8 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from '../auth-interceptor';
 import {AddGroupModule} from './add-group/add-group.module';
+import {ForecastModule} from './forecast/forecast.module';
+import {ConfigurationModule} from './configuration/configuration.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -20,6 +22,7 @@ const PAGES_COMPONENTS = [
 
 @NgModule({
   imports: [
+    ConfigurationModule,
     AddGroupModule,
     PagesRoutingModule,
     ScheduleModule,
@@ -28,6 +31,7 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     SensorsDataModule,
     DashboardModule,
+    ForecastModule,
     ECommerceModule,
     MiscellaneousModule,
   ],

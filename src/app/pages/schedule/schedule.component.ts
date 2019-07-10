@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
 })
 export class ScheduleComponent implements OnInit {
   date = new Date();
-  test: string = 'dadas';
+  test: string = '';
   schedule_days: any[] = [];
   plans: string[] = [];
   groups: string[] = [];

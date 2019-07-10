@@ -20,8 +20,8 @@ export class AddRelayComponent {
   http: any;
   token: string = '';
   httpHeader: any;
-  getUsername () {
-    return 'aicam';
+  getUsername() {
+    return localStorage['username'];
   }
   constructor(private _http: HttpClient, private theme: NbThemeService, private toastrService: NbToastrService,
               private authService: AuthService,

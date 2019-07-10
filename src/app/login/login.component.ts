@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../auth-service';
+import {Router} from '@angular/router';
 @Component({
   selector: 'ngx-bootstrap',
   templateUrl: './login.component.html',
@@ -11,12 +12,13 @@ export class LoginComponent {
   password: string = '';
   http: any;
   authService: any;
-  constructor(_http: HttpClient, authService: AuthService) {
+  constructor(_http: HttpClient, authService: AuthService, private router: Router) {
     this.http = _http;
     this.authService = authService;
   }
-  on_click () {
+  async on_click() {
     const auth = {username: this.email, password: this.password};
-    this.authService.login(this.email, this.password);
+    await this.authService.login(this.email, this.password);
+    this.router.navigateByUrl('pages/sensorsData');
   }
 }

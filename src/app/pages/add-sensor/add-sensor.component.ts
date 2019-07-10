@@ -22,7 +22,7 @@ export class AddSensorComponent {
   token: string = '';
   httpHeader: any;
   getUsername() {
-    return 'aicam';
+    return localStorage['username'];
   }
 
   clicked() {

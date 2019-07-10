@@ -8,59 +8,63 @@ import {Router} from '@angular/router';
 
 @Component({
   selector: 'ngx-bootstrap',
-  templateUrl: './add-group.component.html',
+  templateUrl: './index/configuration.component.html',
 })
-
-export class AddGroupComponent implements OnInit {
-  group_names: any[] = [];
-  relay_selected: string[] = [];
-  test: string = '';
-  gpname: string = '';
-  token: string = '';
+export class ConfigurationComponent implements OnInit {
+  http: any;
+  token: string;
   httpHeader: any;
+  is_selected: boolean = false;
+  is_loaded: boolean = false;
+  radiobox_array: any [] = [];
+  groups: string[] = [];
+  clicked: boolean = false;
+  loaded_gp: boolean = false;
+  ab: boolean = false;
+  set_ab() {
+    this.ab = true;
+  }
+  scheduleStart() {
+    this.showToast(NbToastStatus.SUCCESS, 'وضعیت', 'تنظیمات جدید با موفقیت ثبت شد');
+  }
   getUsername() {
     return localStorage['username'];
   }
-  ngOnInit(): void {
-    this.http.get('http://localhost:3000/get_relays/' + this.getUsername(),
+  async ngOnInit() {
+    await this.getSensorsNames();
+    this.http.get('http://localhost:3000/get_groups/' + this.getUsername(),
       {headers: this.httpHeader}).subscribe(response => {
       const jsonstring = JSON.stringify(response);
       const jsonArray = JSON.parse(jsonstring);
-      jsonArray.map(item => { this.group_names.push({id: item.id, name: item.name, cl: 'btn-warning'}); });
+      jsonArray.map(item => { this.groups.push(item); });
     });
   }
-
-  constructor(private http: HttpClient, private toastrService: NbToastrService, private authService: AuthService,
-  private router: Router) {
+  clicked_sensor() {
+    this.loaded_gp = true;
+  }
+  constructor(private _http: HttpClient, private theme: NbThemeService, private toastrService: NbToastrService,
+              private authService: AuthService,
+              private router: Router) {
+    this.http = _http;
     this.token = this.authService.getToken();
     if ( this.token === '' )
       this.router.navigateByUrl('/auth/login');
     this.httpHeader = {'Authorization': 'Bearer ' + this.token};
   }
-  onClicked (event) {
-    this.group_names.map(item => {
-      if (item.name === event.target.value) {
-        if (item.cl === 'btn-warning') {
-          item.cl = 'btn-success';
-          this.relay_selected.push(item.id);
-        }else {
-          item.cl = 'btn-warning';
-          this.relay_selected.slice(this.relay_selected.indexOf(item.id), 1);
-        }
-      }
-    });
+  async getSensorsNames() {
+    this.http.get('http://localhost:3000/sensors/' + this.getUsername(),
+      {headers: this.httpHeader} )
+      .subscribe((response, err) => {
+        const names_json = JSON.stringify(response);
+        const names_array = JSON.parse(names_json);
+        names_array.map((item) => {this.radiobox_array.push(item);
+          this.is_loaded = true;
+        });
+        this.showToast(NbToastStatus.SUCCESS, 'وضعیت', 'گروه سنسور ها با موفقیت دریافت شد');
+        return 'done';
+      });
+    return 'problem occured';
   }
-  add_gp () {
-    const post_data = {gpname: this.gpname, relays: JSON.stringify(this.relay_selected)};
-    this.http.post('http://localhost:3000/add_group', post_data, {headers: this.httpHeader}).subscribe(response => {
-      const resJson = JSON.stringify(response);
-      const resArr = JSON.parse(resJson);
-      if (resArr['status']) {
-        this.showToast(NbToastStatus.SUCCESS, 'وضعیت', 'گروه جدید اضافه شد');
-      }
-    });
-  }
-
   // toast
   index = 1;
   destroyByClick = true;
