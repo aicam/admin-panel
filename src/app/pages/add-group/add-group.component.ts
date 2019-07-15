@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 
 @Component({
   selector: 'ngx-bootstrap',
+  styleUrls: ['add-group.component.scss'],
   templateUrl: './add-group.component.html',
 })
 
@@ -17,6 +18,7 @@ export class AddGroupComponent implements OnInit {
   test: string = '';
   gpname: string = '';
   token: string = '';
+  gpdata: {} = {};
   httpHeader: any;
   getUsername() {
     return localStorage['username'];
@@ -27,6 +29,12 @@ export class AddGroupComponent implements OnInit {
       const jsonstring = JSON.stringify(response);
       const jsonArray = JSON.parse(jsonstring);
       jsonArray.map(item => { this.group_names.push({id: item.id, name: item.name, cl: 'btn-warning'}); });
+    });
+    this.http.get('http://192.168.1.13:3000/get_groupsArray/' + this.getUsername(),
+      {headers: this.httpHeader}).subscribe(response => {
+      const jsonstring = JSON.stringify(response);
+      const jsonArray = JSON.parse(jsonstring);
+      this.gpdata = jsonArray;
     });
   }
 

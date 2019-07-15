@@ -1,0 +1,18 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+@font-face {
+  font-family: myFirstFont;
+  src: url('../../styles/Shabnam-Bold.eot'),
+  url("../../styles/Shabnam-Bold.ttf"),
+  url("../../styles/Shabnam-Bold.woff"),
+  url("../../styles/Shabnam-Bold.woff2");
+  font-weight: bold;
+}
+@include nb-install-component() {
+
+  nb-card-body {
+    overflow: visible;
+    font-family: myFirstFont;
+  }
+}

@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 
 @Component({
   selector: 'ngx-bootstrap',
-  styleUrls: ['./form-inputs/form-inputs.component.scss'],
+  styleUrls: ['./form-inputs/form-inputs.component.scss', '../../styles/styles.css'],
   templateUrl: './form-inputs/form-inputs.component.html',
 })
 export class ScheduleComponent implements OnInit {
@@ -41,7 +41,7 @@ export class ScheduleComponent implements OnInit {
   }
   changed_date ($event) {
     this.schedule_days.map(item => {
-      this.plans.push('sad');
+      this.plans.push('');
       if (item.day === $event.toString().split(' ')[2] )
         return 0;
     });

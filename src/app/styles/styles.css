@@ -1,0 +1,9 @@
+@font-face {
+  font-family: myFirstFont;
+  src: url('Vazir-bold.woff') format("woff"),
+  url("Vazir-bold.ttf") format('truetype');
+  font-weight: bold;
+}
+div {
+  font-family: myFirstFont;
+}
